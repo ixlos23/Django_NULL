@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "django-null"
+version = "0.1.0"
+description = ""
+authors = ["ixlos23 <izzatmatkarimov090@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.1.2"
+psycopg2-binary = "^2.9.10"
+sqlalchemy = "^2.0.36"
+django-jsonform = "^2.23.1"
+requests = "^2.32.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
