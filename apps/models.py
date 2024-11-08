@@ -1,71 +1,183 @@
-import uuid
+# class User(AbstractUser):
+#
+#     def save(self, *args, **kwargs):
+#         if 'botir' in self.username.lower():
+#             raise ValidationError('Username atmen!')
+#
+#         super().save(*args, **kwargs)
+#
+#
+# class Product(Model):
+#     name = CharField(max_length=255, db_column='name123')
+#     slug = SlugField(unique=False, blank=True, editable=False)
+#     times = DateTimeField(default=timezone.now)
+#     uuid = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+#     category = ForeignKey("apps.Category", related_name='products', on_delete=CASCADE)
 
-import requests
-from django.contrib.auth.models import AbstractUser
-from django.core.exceptions import ValidationError
-from django.db.models import Model, URLField, SlugField, CharField, TimeField, UUIDField
-from django.utils.text import slugify
-from django_jsonform.models.fields import JSONField
+# def save(self, *args, **kwargs):
+#     self.times = timezone.localtime(timezone.now())
+#     super().save(*args, **kwargs)
+
+# class Meta:
+#     abstract = True
+
+# def save(self, *args, init_id=None, **kwargs):
+#     self.slug = slugify(self.name)
+#     if not init_id:
+#         self.save(*args, init_id=True, **kwargs)
+#         self.slug += f"-{self.uuid}"
+#     super().save(*args, **kwargs)
+#
+# def __str__(self):
+#     return self.name
+#
+# SCHEMA = {
+#     'type': 'dict',
+#     'keys': {
+#         'size': {
+#             'type': 'number',
+#             'default': 50,  # default value for age
+#         },
+#         'color': {
+#             'type': 'string',
+#         }
+#     },
+# }
+# data = JSONField(schema=SCHEMA)
+#
+# url = URLField(null=True, blank=True)
+#
+# def clean(self):
+#     super().clean()
+#     if self.url:
+#         try:
+#             response = requests.head(self.url, timeout=5)
+#             if response.status_code >= 400:
+#                 raise ValidationError(f"The URL '{self.url}' is not reachable.")
+#         except requests.RequestException:
+#             raise ValidationError(f"The URL '{self.url}' is not reachable.")
+
+# date = DateTimeField(default=timezone.now)
+# duration = DurationField(default=0)
+
+# event_date = DateField(default="2022-01-01")
+# number = BigAutoField(primary_key=True)  # SERIAL
+# image = BinaryField(null=True, blank=True)
+# quantity = AutoField() # SERIAL
 
 
-class User(AbstractUser):
+# class Category(Model):
+#     name = CharField(max_length=255)
+#     uuid = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+#
+#     def __str__(self):
+#         return self.name
 
-    def save(self, *args, **kwargs):
-        if 'botir' in self.username.lower():
-            raise ValidationError('Username atmen!')
-
-        super().save(*args, **kwargs)
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.db.models import Model, CharField, ImageField, ForeignKey, CASCADE, PositiveIntegerField
 
 
 class Product(Model):
     name = CharField(max_length=255)
-    slug = SlugField(unique=True, blank=True, editable=False)
-    times = TimeField(default=0)
-    uuid = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    # class Meta:
-    #     abstract = True
 
-    def save(self, *args, init_id=None, **kwargs):
-        self.slug = slugify(self.name)
-        if not init_id:
-            self.save(*args, init_id=True, **kwargs)
-            self.slug += f"-{self.uuid}"
-        super().save(*args, **kwargs)
+class A(Model):
+    name = CharField(max_length=255)
+    images = GenericRelation('apps.Image')
 
-    def __str__(self):
-        return self.name
 
-    SCHEMA = {
-        'type': 'dict',
-        'keys': {
-            'size': {
-                'type': 'number',
-                'default': 50,  # default value for age
-            },
-            'color': {
-                'type': 'string',
-            }
-        },
-    }
-    data = JSONField(schema=SCHEMA)
+class B(Model):
+    name = CharField(max_length=255)
+    images = GenericRelation('apps.Image')
 
-    url = URLField(null=True, blank=True)
 
-    def clean(self):
-        super().clean()
-        if self.url:
-            try:
-                response = requests.head(self.url, timeout=5)
-                if response.status_code >= 400:
-                    raise ValidationError(f"The URL '{self.url}' is not reachable.")
-            except requests.RequestException:
-                raise ValidationError(f"The URL '{self.url}' is not reachable.")
+class C(Model):
+    name = CharField(max_length=255)
+    images = GenericRelation('apps.Image')
 
-    # date = DateTimeField(default=timezone.now)
-    # duration = DurationField(default=0)
 
-    # event_date = DateField(default="2022-01-01")
-    # number = BigAutoField(primary_key=True)  # SERIAL
-    # image = BinaryField(null=True, blank=True)
-    # quantity = AutoField() # SERIAL
+class D(Model):
+    name = CharField(max_length=255)
+    images = GenericRelation('apps.Image')
+
+    class Meta:
+        abstract = True
+
+
+class Image(Model):
+    image = ImageField()
+    content_type = ForeignKey('contenttypes.ContentType', CASCADE, limit_choices_to={'model__in': ['a', 'b', 'c', 'd']})
+    object_id = PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+
+#
+# class AImage(Model):
+#     a_image = ImageField(null=True, blank=True)
+#     b_image = ImageField(null=True, blank=True)
+#     c_image = ImageField(null=True, blank=True)
+#     d_image = ImageField(null=True, blank=True)
+
+
+# class AImage(Model):
+#     image = ImageField()
+#
+#
+# class BImage(Model):
+#     image = ImageField()
+#
+#
+# class CImage(Model):
+#     image = ImageField()
+#
+#
+# class DImage(Model):
+#     image = ImageField()
+
+
+# GenericForeignKey
+
+# class User(AbstractUser):
+#     pass
+
+#
+# class A(Model):
+#     name = CharField(max_length=100)
+#
+#
+# class B(Model):
+#     age = CharField(max_length=100)
+#     a = ManyToManyField('apps.A', through='apps.AB', blank=True)
+#
+#
+# class AB(Model):
+#     # YEAR_IN_SCHOOL_CHOICES = [
+#     #     ("junior", "Junior"),
+#     #     ("middle", "Middle"),
+#     #     ("senior", "Senior")
+#     # ]
+#     # status = CharField(max_length=100, choices=YEAR_IN_SCHOOL_CHOICES, default=YEAR_IN_SCHOOL_CHOICES[0][0])
+#
+#     class YearInSchoolChoices(TextChoices):
+#         JUNIOR = 'junior', 'Junior'
+#         MIDDLE = 'middle', 'Middle'
+#         SENIOR = 'senior', 'Senior'
+#         __empty__ = 'Aniqlanmagan'
+#
+#     status2 = CharField(max_length=100, choices=YearInSchoolChoices.choices, default=YearInSchoolChoices.JUNIOR)
+#
+#     MEDIA_CHOICES = {
+#         "Audio": {
+#             "vinyl": "Vinyl",
+#             "cd": "CD",
+#         },
+#         "Video": {
+#             "vhs": "VHS Tape",
+#             "dvd": "DVD",
+#         },
+#         "unknown": "Unknown",
+#     }
+#     status = CharField(max_length=100, choices=MEDIA_CHOICES, null=True, blank=True)
+#
+#     a = ForeignKey('apps.A', CASCADE)
+#     b = ForeignKey('apps.B', CASCADE)

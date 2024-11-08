@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'apps.apps.AppsConfig',
     'django_jsonform'
+    'apps'
 ]
 
 MIDDLEWARE = [
@@ -79,11 +80,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "Asia/Tashkent"
-
-USE_I18N = True
-
+TIME_ZONE = 'Asia/Tashkent'
 USE_TZ = True
+USE_I18N = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
@@ -92,3 +91,5 @@ MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
