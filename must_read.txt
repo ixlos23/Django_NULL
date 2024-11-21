@@ -1,0 +1,224 @@
+
+1. distinct() * SQLda takroriy qatorlarni olib tashlash uchun ishlatiladi. Bu funksiya, ayniqsa,
+                jadvalda bir xil qiymatga ega bo‘lgan qatorlar mavjud bo‘lganda, faqat noyob qiymatlarni olishni xohlaganda ishlatiladi.
+
+2. values() * metodi QuerySetdan faqat ma'lum ustunlarning qiymatlarini olish uchun ishlatiladi.
+              Bu metod barcha ustunlar o‘rniga faqat kerakli ustunlarni chiqarish imkonini beradi,
+
+3. filter() * metodi ma'lum bir shartlarga mos keladigan obyektlarni QuerySetdan tanlash uchun ishlatiladi
+
+4. exclude() * yordamida shartni inkor etish: Agar biror shartni inkor etmoqchi bo‘lsangiz bu metodini ishlatishingiz mumkin:
+
+5. annotate() * yordamida siz QuerySetga yangi hisoblangan maydonlarni qo‘shishingiz mumkin,
+                bu agregat funksiyalarni qo‘llash va ma'lumotlarni ko‘proq tahlil qilish imkonini beradi.
+
+6. annotate() vs aggregate() * o‘rtasidagi farq:
+             - annotate(): Har bir ob'ekt uchun hisoblangan maydonlarni qo‘shadi, shuningdek,
+                           har bir qator uchun agregat funksiyalarini qo‘llash imkonini beradi.
+
+             - aggregate(): Faqat bitta agregat qiymatini qaytaradi va odatda barcha ob'ektlar
+                            bo‘yicha umumiy hisob-kitoblarni amalga oshiradi.
+
+7. alias()  * bu metodi to‘g‘ridan-to‘g‘ri mavjud emas. yangi nom berish, yangi ustun yaratishdir.
+              annotate() yordamida, masalan, umumiy qiymat yoki
+              boshqa hisob-kitoblarni agregat qilib, natijada alias sifatida qaytariladi.
+
+8. order_by() * metodi ma'lumotlarni tartiblashtirish (sorting) uchun ishlatiladi.
+                Bu metod yordamida QuerySetdagi obyektlarni bir yoki bir nechta ustunlar bo‘yicha o‘sish (ascending)
+                yoki kamayish (descending) tartibda joylashtirish mumkin.
+
+9. reverse() * metodi QuerySetni teskari tartibda (descending order) qaytarish uchun ishlatiladi.
+               Bu metod order_by() yordamida tartiblangan ma'lumotlar ketma-ketligini teskari qilish imkonini beradi.
+               Agar siz biror QuerySetni tartiblashtirib bo‘lsangiz, va keyin uni teskari tartibda olishni xohlasangiz,
+               reverse() metodidan foydalanasiz.
+
+10. values_list() * metodi QuerySetdan faqat ma'lum ustunlarning qiymatlarini olish uchun ishlatiladi.
+                    Bu metod values() metodiga o‘xshash, ammo values_list() har bir natijani tuple sifatida qaytaradi,
+                    bu esa ko‘pincha tez va samarali ishlashni ta'minlaydi.
+
+11. dates() * metodi QuerySetdagi sanalarni filtrlash va guruhlash uchun ishlatiladi.
+              Bu metod orqali siz ma'lum bir ustundagi sanalarni oylarga, yillarga, kunlarga va boshqalarga guruhlashingiz mumkin.
+              dates() faqat DateField yoki DateTimeField tipidagi ustunlarda ishlaydi.
+
+12. datetimes() * metodi **QuerySet**dagi DateField yoki DateTimeField tipidagi ustunlar bo‘yicha sanalarni turli xil
+                davrlar (yil, oy, hafta, kun) bo‘yicha olishda ishlatiladi. Bu metod yordamida siz ma'lumotlarni
+                sanalarga asoslangan holda filtrlashingiz yoki guruhlashingiz mumkin.
+
+13. none() * metodi QuerySetni bo‘sh (empty) holatda qaytarish uchun ishlatiladi. Bu metod yordamida siz hech qanday
+             obyektni qaytarmaydigan, ya'ni bo‘sh QuerySet yaratishingiz mumkin.
+
+14. all() * metodi ma'lum bir modelga oid barcha obyektlarni olish uchun ishlatiladi.
+            Bu metod modeldagi barcha yozuvlarni (ma'lumotlarni) qaytaradi, ya'ni hech qanday filtrlash
+            yoki cheklov qo‘ymasdan, barcha mavjud obyektlarni olish uchun ishlatiladi.
+
+15. union() * metodi bir nechta QuerySetlarni birlashtirish uchun ishlatiladi. Bu metod yordamida bir nechta alohida
+              QuerySetlardan olingan natijalarni birlashtirib, yagona QuerySet hosil qilishingiz mumkin.
+              union() metodining asosiy afzalligi shundaki, u natijalarda takrorlanadigan yozuvlarni olib tashlaydi
+              va faqat noyob (unique) yozuvlarni qaytaradi.
+                        QuerySet1 va QuerySet2: Birlashtirilayotgan QuerySetlar.
+                              - all: (ixtiyoriy) Agar all=True bo‘lsa, takrorlanadigan yozuvlar ham qaytariladi.
+                                     Agar all=False (default) bo‘lsa, takrorlangan yozuvlar faqat bir marta ko‘rsatiladi
+
+16. intersection() * metodi bir nechta QuerySetlar orasidagi umumiy yozuvlarni olish uchun ishlatiladi.
+                     Bu metod yordamida bir nechta alohida QuerySetlardan faqat umumiy yozuvlarni, ya'ni barcha
+                     QuerySetlar bilan mos keladigan yozuvlarni olish mumkin.
+
+17. difference() * metodi bir QuerySetdagi yozuvlar bilan boshqa bir yoki bir nechta QuerySetlar orasidagi farqni
+                   olish uchun ishlatiladi. Bu metod yordamida birinchi QuerySetdagi yozuvlarni, ikkinchi
+                   QuerySetda mavjud bo‘lmagan yozuvlar bilan solishtirishingiz mumkin. Boshqacha aytganda,
+                   difference() birinchi QuerySetdagi yozuvlar, ikkinchi QuerySetlarda mavjud bo‘lmagan yozuvlarni qaytaradi.
+
+18. select_related() * metodi, asosan, ForeignKey va OneToOneField aloqalariga ega bo‘lgan modellarga oid ma'lumotlarni
+                       bir so'rovda olish uchun ishlatiladi.
+                       misol:Agar siz Book modelidan kitoblar ro‘yxatini olishni xohlasangiz va har bir kitobning
+                             muallifini ham olishni istasangiz, bunda select_related() metodini ishlatishingiz mumkin
+
+19. prefetch_related() * metodi, asosan, ManyToManyField va Reverse ForeignKey aloqalari uchun ishlatiladi. Bu metod,
+                         ma'lumotlar bazasidagi bir nechta so'rovlarni optimal tarzda bajarish uchun ishlatiladi,
+                         ayniqsa, ko'p bog'langan obyektlar bilan ishlaganda
+
+20. extra() * metodi maxsus yoki murakkab SQL so'rovlarini bajarish uchun ishlatiladi. Bu metod yordamida siz Django ORM
+              imkoniyatlaridan tashqarida bo‘lgan qo‘shimcha ustunlar, filtrlar yoki tartiblashni qo‘shishingiz mumkin
+
+21. defer() * metodi ma'lum bir model ustunlarini so'rov natijalaridan chetlab o'tish uchun ishlatiladi.
+              Bu metod yordamida faqat kerakli ustunlarni darhol olib kelib, qolgan ustunlarni keyinchalik talab
+              qilinganida olish imkonini beradi.
+
+22. only() * metodi faqat belgilangan ustunlarni ma'lumotlar bazasidan olish uchun ishlatiladi. Bu, ayniqsa, modelda
+             ko'plab ustunlar mavjud bo'lib, lekin sizga faqat bir nechtasi kerak bo'lganda samarali bo'ladi.
+
+23. using() * metodi ma'lumotlar bazalarini boshqarish uchun ishlatiladi, ayniqsa, bir nechta ma'lumotlar bazalari bilan
+              ishlash kerak bo'lgan loyihalarda. Django'da standart ma'lumotlar bazasi odatda default deb nomlanadi,
+              lekin siz qo'shimcha bazalarni sozlashingiz mumkin, va ular bilan ishlash uchun using() metodidan foydalaniladi
+
+24. select_for_update() * ma'lumotlarni qulf ostida olish uchun ishlatiladi. Bu usul tranzaksion boshqaruv ostidagi
+                          so'rovlar uchun qo'llaniladi va ma'lumotlarni boshqa jarayonlar tomonidan o'zgartirilishini
+                          yoki o'chirilishini oldini olishga imkon beradi.
+                          BU method PostgreSQL, MySQL, va Oracle kabi ma'lumotlar bazalari bilan ishlaydi.
+                          SQLite buni to'g'ridan-to'g'ri qo'llab-quvvatlamaydi.
+
+25. raw() * metodi xom (raw) SQL so'rovlarini bajarish uchun ishlatiladi. Bu usul odatda standart
+            ORM imkoniyatlari yetarli bo'lmagan holatlarda qo'llaniladi, masalan, murakkab SQL so'rovlari
+            yoki maxsus optimizatsiya talab etilganda.
+
+
+=======================================================================================================================
+
+
+- data type * int, str, tuple, list, set, float, complex, bool
+
+- collections * Malumodlarini yig'ish va saqlash vazifasini  bajaruvchi strukturaviy turlardir: deque tezkor qo'shish
+                counter elementlar soni sanaydi
+
+- itertools * count bosh qiymat va qadam bn chksz sonalrni ketma-ketlik yaratdi
+              cycle berilgan itarableni cheksz takrorlaydi
+
+- dataclasses * bu  __init__, __repr__, __eq__ kabi methodlarni avto yaratadi
+                har bit atributning turini belgilash mumkin
+
+- subquery * bir necha querylarni birlashtirish
+
+- slots   * Python'da klasslar uchun xotira samaradorligini oshirishga yordam beruvchi mexanizm
+
+- Comprehension * Ro'yxatlarni tezda yaratish uchun ishlatiladi.  Qisqa va oson: Bir necha qator kodni bitta qatorli ko'rinishga keltiradi.
+
+- Concurrency (bir vaqtning o'zida bajarish) * bu bir necha vazifalarni bir vaqtda (ya'ni, bir vaqt ichida) bajarishga
+
+- garbage callector (qaytgan chiqindilarni yig'ish) — bu avtomatik xotira boshqaruvi mexanizmi bo'lib,
+        dasturlash tilida ishlatilmaydigan yoki ehtiyoj qolmagan ob'ektlarni aniqlab, ularni xotiradan chiqarib tashlaydi.
+
+- Generator * bu oddiy funktsiyaga o'xshab, ammo yield operatorini ishlatib, ishga tushirilganida vaqtincha
+            to'xtashi va keyin qayta davom ettirishi mumkin bo'lgan funktsiya.
+
+- pl/psql *  trigger yaratishda ishlatiladi.
+
+- MultiThreading * Bir vaqtning o'zida ko'plab vazifalarni parallel  bajarish imkonini beradi
+
+- MultiProcessing * BU module bizga Bir vaqtning o'zida ko'p jarayonlarni yaratish va ishlatish imkonini beradi
+
+- Gil * u bir vaqtning o'zida bitta oqimda Python kodini bajarishni ta'minlaydi.
+
+- Partation * Bu katta jadvallarni boshqarish va ma'lumotlarni tezroq topish va jadvallarni kichik bolaklarga ajratish
+
+- index * ma'lumotlarni tezkor va samarali qidirish, tanlash, yangilash yoki o'chirish operatsiyalarini
+            amalga oshirish uchun ishlatiladi.
+
+- logging turi * DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+- inheritance turi: * SIMPLE, MULTIPLE, HIERARCHICAL, HYBRID
+
+- web protocol 1) * HTTP Protocol(sorov yuborish javob olish), 2) * HTTPS Protocol(bu HTTP ning xavfsiz versiyasi)
+               3) * FTP Protocol(bu file uzatish uchun ishlatiladi) 4) * Web Socket brouzer va server o'rtasida aloqa ornatsh
+
+- Scope * global va local
+
+- kanban * bu ish jarayonini boshqarish uchun vizual metod. Asosiy maqsad — ish jarayonini kuzatish va yaxshilash.
+           Ishlar taxtada kartochkalar yordamida belgilanadi va har bir kartochka jarayonning turli bosqichlarini
+           ifodalaydi (masalan, "Reja", "Bajarilmoqda", "Tugallandi").
+
+- graphql * bu orqali frontendchilar uchun kerakli ma'lumotlarni olish
+
+- search(linear,binary) * Linary search ketma-ket tekshirish boshlaydi keraklisi topsa to'xtaydi
+                        * Binary
+
+- transaction * Agar biror amal muvaffaqiyatsiz bo'lsa, butun transaction bekor qilinadi.
+              Transactionlar odatda moliyaviy operatsiyalar yoki ma'lumotlar bazasi bilan ishlash jarayonida qo'llaniladi.
+
+- query * DDl, DCL, DML, TML
+          DML: select delete, insert, update
+
+- Context Manager * Kop turdagi resurslarni boshqarish uchun ishlatish mumkin: files, tarmoqlar malumot bazasi ulanish
+                    va boshqa resurs
+
+- decorator * Biror bir funksiyani qabul qilib oladi va asl funksiyani yangi funksiyaga almashtiradi lekin vazifasi
+              o'zgarmaydi
+
+- Celery * Rejalashtirilgan vazifalarni bajarish Masalan: emailga xabar yuborish kop vaqt oladi celery esa bu vazifani
+           orqa fonda bajaradi
+
+- Web Socket * web socket yordamida mijoz va server real vaqt rejimida bir-biriga xabar yuborish mumkin
+
+- iterator * bu Python kabi dasturlash tillarida biror kolleksiyani (masalan, ro'yxat, to'plam, qator)
+             elementma-element ko'rib chiqish imkonini beruvchi obyekt.
+             Iteratorlar quyidagi ikkita metodni amalga oshiradi:
+             1)__iter__(): Bu metod iterator obyektni qaytaradi. Odatda bu metod iteratorning o'zini qaytaradi.
+             2)__next__(): Bu metod keyingi elementni qaytaradi. Agar barcha elementlar tugasa, u holda StopIteration istisnosi yuzaga keladi.
+
+- elasticsearch * bu katta hajmdagi ma'lumotlarni tez va samarali qidirish va tahlil qilish uchun ishlatiladigan
+                qidiruv tizimi. U real vaqtda ishlaydi, tarqoq tizim bo'lib, ma'lumotlar JSON formatida saqlanadi.
+                Ko'pincha log monitoring va qidiruv tizimlarida qo'llaniladi.
+
+- scrum * bu loyihalarni boshqarish va jamoaviy ish jarayonini tartibga solish uchun ishlatiladigan
+
+- sql/Nosql * farqi sqlda jadval korinishida saqlaydi Nosql file, key, value, grafik qismida saqlaydi
+
+- ttl(time to live) * cache malumot saqlaydigan vaqtini uzimiz bersak boladi
+
+- big 0 * dasturlash tezligi hisoblaydigan mexanizm
+
+- reference count * bog'lanishlar soni aniqlashda
+
+- view * kodlarni saqlash joyi
+
+- partition * bu katta jadvalni boshqarish va malumotlarni tezkor topish yani jadvalni kichik bolaklarga ajratadi.
+
+- trigger * malumotlar bazasidagi uzgaruvchilarni saqlaydi
+
+- dict/set * dict: kalit-qiymat juftliklarini saqlaydi, set — faqat yagona qiymatlar.
+             dict ga qiymat bog'lash mumkin, set da faqat elementlar saqlanadi.
+             dict key-value saqlaydi, set faqat yagona qiymatlar
+
+- polimorphism * 2 turi bor dynamic static
+
+- list/set * Listda tartiblangan qiymatlar saqlaydi
+             Tartibsiz va takrorlanmaydigan elementlar to'plami.
+             list — tartiblangan va takrorlanishi mumkin bo'lgan elementlarni saqlaydi.
+             set — tartibsiz va takrorlanmas elementlarni saqlaydi.
+             list da indekslar bor, set da indekslar yo'q.
+
+- iterator/iterable * iterator iterable dan elementlarni birma-bir chiqaradi.
+                      iterable list, tuple, set, dict, va str kabi ma'lumot tuzilmalari iterable hisoblanadi.
+
+- iterable * siklarda aylanib boladigan typlar
+
+- Group by * sanash uchun id shunga tegishli malumotlar.
