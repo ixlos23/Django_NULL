@@ -108,6 +108,7 @@ LOGGING = {
             'filename': 'log.django',
         },
     },
+
     'loggers': {
         'django': {
             'handlers': ['console', 'file'],
